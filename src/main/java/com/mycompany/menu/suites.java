@@ -115,7 +115,6 @@ public class suites {
         }
     }
 }
-
     public static void lista1() {
         System.out.println("----- Reservas de Quartos -----");
         System.out.println();
@@ -198,7 +197,6 @@ public class suites {
         return lerDaLista(linhas);
     }
 }
-
 
 
 
