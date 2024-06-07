@@ -52,6 +52,7 @@ public class suites {
     }
 
     public static void fazerReserva() {
+        
         System.out.println("---- Escolha de Quartos ----");
         System.out.println("Digite seu CPF:");
         var cpf = lerDados.lerTexto();
@@ -65,11 +66,12 @@ public class suites {
             }
         }
         if (achei == null) {
+            while(true){
             System.out.println("Voce nao tem cadastro. Deseja se cadastrar?");
             System.out.println("1 - SIM.");
             System.out.println("2 - NAO.");
             var escolha = lerDados.lerInt();
-            switch (escolha) {
+            switch(escolha){
                 case 1:
                     Menu.cadastrarHospede();
                     return;
@@ -78,6 +80,7 @@ public class suites {
                 default:
                     System.out.println("Numero invalido, Digite 1 ou 2.");
                     break;
+            }
             }
         }
         System.out.println();
@@ -90,45 +93,28 @@ public class suites {
                 System.out.println("Numero de quarto invalido. Por favor, digite um numero de 1 a 40.");
             } else if (reservas.containsKey(numeroQuarto)) {
                 System.out.println("Quarto ocupado por " + reservas.get(numeroQuarto).nome());
-                System.out.println("Deseja escolher outro quarto?");
-                System.out.println("1 - Escolher outro quarto.");
-                System.out.println("2 - Desistir.");
-                var escolha = lerDados.lerInt();
-                if (escolha == 2) {
-                    return;
-                }
             } else {
-                while (true) {
-                    System.out.println();
-                    LocalDate hoje = LocalDate.now();
-                    
-                    System.out.println("Data de Check-in: ");
-                    LocalDate checkIn = lerDados.lerData();
-                    
-                    if (checkIn.isBefore(hoje)) {
-                        System.out.println("A data de check-in não pode ser anterior à data atual. Tente novamente.");
-                    } else {
-                        System.out.println("Data de Check-out: ");
-                        LocalDate checkOut = lerDados.lerData();
-                        if (checkOut.isBefore(checkIn) || checkOut.equals(checkIn)) {
-                            System.out.println("A data de check-out deve ser posterior à data de check-in. Tente novamente.");
-                        } else {
-                            System.out.println("---- Quarto Reservado ----");
-                            System.out.println("Quarto " + numeroQuarto + " reservado para " + achei.nome());
-
-                            String dataCheckInStr = checkIn.format(DateTimeFormatter.ofPattern("dd/MM/uuuu"));
-                            String dataCheckOutStr = checkOut.format(DateTimeFormatter.ofPattern("dd/MM/uuuu"));
-
-                            Reserva reserva = new Reserva(achei.nome(), dataCheckInStr, dataCheckOutStr);
-                            reservas.put(numeroQuarto, reserva);
-                            salvarReservasEmArquivo(reservas);
-                            return;
-                        }
-                    }
+                System.out.println();
+                System.out.println("Data de Check-in: ");
+                LocalDate checkIn = lerDados.lerData2();
+                System.out.println("Data de Check-out: ");
+                LocalDate checkOut = lerDados.lerData3();
+                if(checkOut.isAfter(checkIn)){
+                System.out.println("---- Quarto Reservado ----");
+                System.out.println("Quarto " + numeroQuarto + " reservado para " + achei.nome());
+                
+                String dataCheckInStr = checkIn.format(DateTimeFormatter.ofPattern("dd/MM/uuuu"));
+                String dataCheckOutStr = checkOut.format(DateTimeFormatter.ofPattern("dd/MM/uuuu"));
+                
+                Reserva reserva = new Reserva(achei.nome(), dataCheckInStr, dataCheckOutStr);
+                reservas.put(numeroQuarto, reserva);
+                break;
+                }else{
+                    System.out.println("A data de CheckOut deve ser posterior a data de checkIn.");
                 }
-            }
         }
     }
+}
 
     public static void lista1() {
         System.out.println("----- Reservas de Quartos -----");
