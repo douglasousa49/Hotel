@@ -95,19 +95,7 @@ public class lerDados {
             System.out.println("Tente novamente:");
         }
     }
-
-    public static Optional<LocalDate> lerDataOpcional(String tenteNovamente) {
-        while (true) {
-            var linha = scan.nextLine();
-            if (linha.isEmpty()) return Optional.empty();
-            try {
-                return Optional.of(LocalDate.parse(linha, DATA));
-            } catch (DateTimeParseException erro) {
-            }
-            System.out.print(tenteNovamente);
-        }
-    }
-
+    
     public static String lerTexto() {
         return scan.nextLine();   
     }
